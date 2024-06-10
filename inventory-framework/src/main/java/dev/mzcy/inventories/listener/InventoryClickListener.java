@@ -33,9 +33,10 @@ public class InventoryClickListener implements EventListener<InventoryClickEvent
         if ((gui = instance.getManager().getGui(title.content())) != null) {
             IntelligentItem item = gui.getContents().getSlot(inventoryClickEvent.getSlot());
             if (item != null) {
-                item.getInventoryClickEventConsumer().accept(inventoryClickEvent);
+                if (item.getInventoryClickEventConsumer() != null)
+                    item.getInventoryClickEventConsumer().accept(inventoryClickEvent);
             }
         }
-        return null;
+        return Result.SUCCESS;
     }
 }

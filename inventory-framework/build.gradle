@@ -27,6 +27,14 @@ dependencies {
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+
+    testImplementation "net.minestom:minestom-snapshots:${minestomVersion}"
+    testImplementation project(":utilities")
+    testImplementation 'org.mockito:mockito-core:3.12.4' // replace with the version you are using
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.12.4' // replace with the version you are using
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0' // replace with the version you are using
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0' // replace with the version you are using
 }
 
 shadowJar {
@@ -51,4 +59,11 @@ blossom {
     replaceToken "PROJECT_NAME", rootProject.name
     replaceToken "PROJECT_VERSION", rootProject.version
     replaceToken "DEP_MINESTOM_VERSION", "${minestomVersion}"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
 }
