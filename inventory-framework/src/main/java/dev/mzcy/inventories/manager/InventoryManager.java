@@ -7,8 +7,6 @@ import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
-import net.minestom.server.event.EventListener;
-import net.minestom.server.event.inventory.InventoryCloseEvent;
 import net.minestom.server.timer.Task;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -101,7 +99,6 @@ public class InventoryManager {
         if (!registeredGuis.contains(gui)) {
             throw new IllegalArgumentException("The specified GUI is not registered. Please register it first using InventoryManager#registerGui(Gui).");
         }
-        gui.initialize(gui.getContents());
         gui.open(player);
         gui.setPlayer(player);
         if (gui.isUpdateable()) {

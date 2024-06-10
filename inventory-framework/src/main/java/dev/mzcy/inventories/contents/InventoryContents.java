@@ -3,6 +3,7 @@ package dev.mzcy.inventories.contents;
 import dev.mzcy.utilities.pair.Pair;
 import lombok.Getter;
 import lombok.Setter;
+import net.minestom.server.inventory.Inventory;
 import net.minestom.server.item.ItemStack;
 
 import java.util.HashMap;
@@ -12,20 +13,23 @@ import java.util.Map;
  * Represents the contents of an inventory.
  * The contents are stored as a map of slots to intelligent items.
  */
+@Getter
 public class InventoryContents {
 
     // The map of slots to intelligent items.
     Map<Slot, IntelligentItem> contents;
     // The size of the GUI for the inventory.
     final int guiSize;
+    final Inventory inventory;
 
     /**
      * Constructs a new InventoryContents with the specified GUI size.
      *
-     * @param guiSize the size of the GUI for the inventory.
+     * @param inventory the inventory to create contents for.
      */
-    public InventoryContents(int guiSize) {
-        this.guiSize = guiSize;
+    public InventoryContents(Inventory inventory) {
+        this.inventory = inventory;
+        this.guiSize = inventory.getSize();
         contents = new HashMap<>(guiSize);
     }
 

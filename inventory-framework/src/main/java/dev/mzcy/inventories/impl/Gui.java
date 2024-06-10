@@ -6,6 +6,7 @@ import lombok.NonNull;
 import lombok.Setter;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.entity.Player;
+import net.minestom.server.inventory.Inventory;
 import net.minestom.server.inventory.InventoryType;
 import net.minestom.server.timer.Task;
 import org.jetbrains.annotations.Nullable;
@@ -24,6 +25,7 @@ public abstract class Gui {
     InventoryContents contents;
     boolean isUpdateable;
     Duration updateInterval;
+    Inventory inventory;
 
     /**
      * Constructs a new GUI with the specified title and number of rows.
@@ -31,7 +33,7 @@ public abstract class Gui {
      * @param rows              the number of rows in the GUI.
      * @param updateInterval    the update interval of the GUI. If null, the GUI will not be updated.
      */
-    Gui(@NonNull String title, @NonNull int rows, @Nullable Duration updateInterval) {
+    public Gui(@NonNull String title, @NonNull int rows, @Nullable Duration updateInterval) {
         this.title = title;
         switch (rows) {
             case 1:
@@ -57,7 +59,6 @@ public abstract class Gui {
         }
         this.rows = rows;
         this.size = rows * 9;
-        this.contents = new InventoryContents(rows);
         if (updateInterval != null) {
             this.isUpdateable = true;
             this.updateInterval = updateInterval;
@@ -65,6 +66,11 @@ public abstract class Gui {
         }
         this.isUpdateable = false;
         this.updateInterval = null;
+
+        this.inventory = new Inventory(type, title);
+        this.contents = new InventoryContents(this.inventory);
+
+        this.initialize(contents);
     }
 
     /**
@@ -73,12 +79,11 @@ public abstract class Gui {
      * @param type              the type of the GUI.
      * @param updateInterval    the update interval of the GUI. If null, the GUI will not be updated.
      */
-    Gui(@NonNull String title, @NonNull InventoryType type, @Nullable Duration updateInterval) {
+    public Gui(@NonNull String title, @NonNull InventoryType type, @Nullable Duration updateInterval) {
         this.title = title;
         this.type = type;
         this.rows = type.getSize();
         this.size = type.getSize();
-        this.contents = new InventoryContents(type.getSize());
         if (updateInterval != null) {
             this.isUpdateable = true;
             this.updateInterval = updateInterval;
@@ -86,6 +91,8 @@ public abstract class Gui {
         }
         this.isUpdateable = false;
         this.updateInterval = null;
+        this.inventory = new Inventory(type, title);
+        this.contents = new InventoryContents(this.inventory);
     }
 
     /**
