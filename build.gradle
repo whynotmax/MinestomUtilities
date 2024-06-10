@@ -1,0 +1,37 @@
+allprojects {
+
+    apply plugin: 'java'
+
+    group "${authorGroup}"
+    version "${authorVersion}"
+
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://jitpack.io'
+        }
+        maven {
+            url "https://reposilite.koboo.eu/releases"
+        }
+        maven {
+            url 'https://repo.spongepowered.org/maven'
+        }
+    }
+
+}
+
+group "${authorGroup}"
+version "${authorVersion}"
+
+compileJava {
+    options.encoding = 'UTF-8'
+}
+
+tasks.register('cleanProject', Delete) {
+    delete file('logs/')
+    delete file('extensions/')
+    delete file('configs/')
+    delete rootProject.buildDir
+    delete project(':server-api').buildDir
+    delete project(':server-app').buildDir
+}
